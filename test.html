@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/now-ui-kit.css">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,600,700,800,900&display=swap" rel="stylesheet">
+    <title>Тест на здоровье вашего питомца</title>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-transparent">
+        <a class="navbar-brand" href="index.html">
+            <img src="assets/images/logo_full_white_without_a_lantern_new_year.png" width="100" height="100" alt="Logo">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="index.html">Главная <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="test.html">Пройти тест</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="articles.html">Статьи</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="about-me.html">О нас</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+<div class="container">
+    <h1 class="text-center">Тест на здоровье вашего питомца</h1>
+    <p class="text-center">Тест в интернете не сможет полностью и максимально точно назвать болезнь вашего питомца, однако, его можно пройти для первоначальной проверки по симптомам!</p>
+    <br></br>
+
+    <form id="quizForm">
+        <div class="question">
+            <p>1. Присутствуют красные или розовые пятна с плотной коркой?</p>
+            <div class="answers">   
+                <input type="radio" name="q1" value="a">  Да<br>
+                <input type="radio" name="q1" value="b">  Нет<br>
+            </div>
+        </div>
+
+        <div class="question">
+            <p>2. Присутствует выделение гнойного субстрата из глаз?</p>
+            <div class="answers">   
+                <input type="radio" name="q2" value="a">  Да<br>
+                <input type="radio" name="q2" value="b">  Нет<br>
+            </div>
+        </div>
+
+        <div class="question">
+            <p>3. Присутствует шелушение кожного покрова?</p>
+            <div class="answers">   
+                <input type="radio" name="q3" value="a">  Да<br>
+                <input type="radio" name="q3" value="b">  Нет<br>
+            </div>
+        </div>
+
+        <div class="question">
+            <p>4. Присутствует отказ от еды или ухудшение аппетита?</p>
+            <div class="answers">   
+                <input type="radio" name="q4" value="a">  Да<br>
+                <input type="radio" name="q4" value="b">  Нет<br>
+            </div>
+        </div>
+
+        <div class="question">
+            <p>5. Присутствует высокая температура?</p>
+            <div class="answers">   
+                <input type="radio" name="q5" value="a">  Да<br>
+                <input type="radio" name="q5" value="b">  Нет<br>
+            </div>
+        </div>
+
+        <div class="question";>
+            <p>6. Присутствуют приступы рвоты, проблемы с дефекацией и обильное слюноотделение?</p>
+            <div class="answers">   
+                <input type="radio" name="q6" value="a">  Да<br>
+                <input type="radio" name="q6" value="b">  Нет<br>
+            </div>
+        </div>
+
+        <button type="button" class="btn btn-primary" onclick="checkAnswers()">Проверить ответы</button>
+    </form>
+</div>
+
+<!-- Modal for displaying results -->
+<div class="modal fade" id="resultModal" tabindex="-1" role="dialog" aria-labelledby="resultModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style="background-color: #1D1E28; border-radius: 10px;">
+            <div class="modal-header">
+                <h5 class="modal-title" id="resultModalLabel">Ваш результат</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Результат будет отображаться здесь -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+<script>
+    function checkAnswers() {
+        let lishaiCount = 0;
+        let toxoplasmosisCount = 0;
+        let rabiesCount = 0;
+        let allAnswered = true; // Flag to check if all questions are answered
+
+        // Check answers and count "Yes" responses for each group
+        for (let i = 1; i <= 6; i++) {
+            const answer = document.querySelector(`input[name="q${i}"]:checked`);
+            if (!answer) {
+                allAnswered = false; // If any question is unanswered
+            } else {
+                if (answer.value === 'a') {
+                    if (i === 1 || i === 3) {
+                        lishaiCount++;
+                    } else if (i === 2 || i === 5) {
+                        toxoplasmosisCount++;
+                    } else if (i === 4 || i === 6) {
+                        rabiesCount++;
+                    }
+                }
+            }
+        }
+
+        // If not all questions are answered, show the message
+        if (!allAnswered) {
+            document.getElementById('modalBody').innerText = "Ответьте пожалуйста на все вопросы";
+            $('#resultModal').modal('show');
+            return; // Exit the function
+        }
+
+        let resultMessage = '';
+        let maxCount = Math.max(lishaiCount, toxoplasmosisCount, rabiesCount);
+
+        // Determine the result based on the counts
+        if (lishaiCount > toxoplasmosisCount && lishaiCount > rabiesCount) {
+            resultMessage = "Лишай - это общее название целой группы инфекционных болезней, поражающих шерсть и кожу млекопитающих.";
+        } else if (toxoplasmosisCount > rabiesCount && toxoplasmosisCount > lishaiCount) {
+            resultMessage = "Токсоплазмоз — паразитарное заболевание человека и животных, вызываемое токсоплазмами.";
+        } else if (rabiesCount > toxoplasmosisCount && rabiesCount > lishaiCount) {
+            resultMessage = "Бешенство — остро протекающая инфекционная болезнь теплокровных животных и человека, обычно со смертельным исходом.";
+        } else if (maxCount === 0) {
+            resultMessage = "Вероятно, ваш питомец здоров, но если вы сомневаетесь, то обратитесь к врачу!";
+        } else {
+            let maxCountGroups = [];
+            if (lishaiCount === maxCount) {
+                maxCountGroups.push("Лишай - это общее название целой группы инфекционных болезней, поражающих шерсть и кожу млекопитающих.");
+            }
+            if (toxoplasmosisCount === maxCount) {
+                maxCountGroups.push("Токсоплазмоз — паразитарное заболевание человека и животных, вызываемое токсоплазмами.");
+            }
+            if (rabiesCount === maxCount) {
+                maxCountGroups.push("Бешенство — остро протекающая инфекционная болезнь теплокровных животных и человека, обычно со смертельным исходом.");
+            }
+
+            // Generate the final message
+            if (maxCountGroups.length === 1) {
+                resultMessage = maxCountGroups[0];
+            } else {
+                resultMessage = "Я не могу определить болезнь вашего питомца, лучше обратитесь к врачу!";
+            }
+        }
+
+        document.getElementById('modalBody').innerText = resultMessage;
+        $('#resultModal').modal('show');
+    }
+</script>
+<div class="page_end">
+    <div class="start">
+        <div class="card">
+            <div class="card-body gs-card">
+            </div><br />
+        </div>
+    </div>
+    <div class="footer">
+        <div class="bot-footer">
+            © 2024 Животный путь
+        </div><br/>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script src="js/now-ui-kit.min.js"></script>
+</body>
+</html>
